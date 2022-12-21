@@ -46,6 +46,8 @@ public class Menu {
         System.out.println("Pick a submenu number to continue: ");
         System.out.println("1. Get All Items");
         System.out.println("2. Create New Item");
+        System.out.println("3. Update Item");
+        System.out.println("2. Delete Item");
 
 
         System.out.println();
@@ -64,6 +66,15 @@ public class Menu {
                 Item.createNewItem();
                 itemsMenu();
                 break;
+            case 3:
+                Item.updateItem();
+                itemsMenu();;
+                break;
+            case 4:
+                Item.deleteItem();
+                itemsMenu();
+                break;
+
 
             default:
                 System.out.println("Invalid option.");
@@ -76,7 +87,9 @@ public class Menu {
     public static void customerMenu() {
         System.out.println("Pick a submenu number to continue: ");
         System.out.println("1. Get All Customers");
-        System.out.println("2. Create New Item");
+        System.out.println("2. Create New Customer");
+        System.out.println("3. Update Customer Info");
+        System.out.println("4. Delete Customer");
 
 
         System.out.println();
@@ -88,16 +101,24 @@ public class Menu {
                 break;
             case 1:
                 Customer.getAllCustomers();
-                itemsMenu();
+                customerMenu();
                 break;
-            //  case 2:
-            //             Customer.createNewItem;
-            //           itemsMenu();
-            //         break;
+              case 2:
+                  Customer.createNewCustomer();
+                  customerMenu();
+                        break;
 
+            case 3:
+                Customer.updateCustomer();
+                customerMenu();
+                break;
+            case 4:
+                Customer.deleteCustomer();
+                customerMenu();
+                break;
             default:
                 System.out.println("Invalid option.");
-                itemsMenu();
+                customerMenu();
                 break;
         }
     }
@@ -130,27 +151,39 @@ public class Menu {
 
     public static void salesMenu() {
         System.out.println("Pick a submenu number to continue: ");
-        System.out.println("1. Get All Sales");
+        System.out.println("1. Get item Total");
+
 
 
         System.out.println();
         System.out.print("Select an option or enter 0 to go back to main menu: ");
         int option = scanner.nextInt();
-
         switch (option) {
             case 0:
                 mainMenu();
                 break;
             case 1:
-                Sales.getAllSales();
+                Sales.handleItemTotal();
                 salesMenu();
                 break;
+            //case 2:
+              //  Customer.createNewCustomer();
+                //customerMenu();
+                //break;
 
+            //case 3:
+                //Customer.updateCustomer();
+                //customerMenu();
+                //break;
+            //case 4:
+                //Customer.deleteCustomer();
+                //customerMenu();
+                //break;
             default:
                 System.out.println("Invalid option.");
-                itemsMenu();
+                salesMenu();
                 break;
-
         }
     }
+
 }

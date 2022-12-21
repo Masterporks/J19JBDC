@@ -57,5 +57,86 @@ public class Customer {
             e.printStackTrace();
         }
     }
+    public static boolean createNewCustomer() {
+        // Add prompts to tell the user what data they need to enter next
+        System.out.print("Enter the customer first name: ");
+        String firstName = scanner.nextLine();
+
+        System.out.print("Enter the customer  last_name: ");
+        String lastName = scanner.nextLine();
+
+        System.out.print("Enter the email: ");
+        String email = scanner.nextLine();
+
+
+
+
+        try {
+            ps = connection.prepareStatement("INSERT INTO customer(first_name, last_name, email) " +
+                    "VALUES('" + firstName + "','" + lastName + "', '" + email + "')");
+
+            ps.execute();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static boolean updateCustomer() {
+        // Update prompts to tell the user what data they need to enter next
+
+        System.out.println("Possible fields to update: first_name, last_name, email");
+        System.out.print("Enter the field name: ");
+        String fieldName = scanner.nextLine();
+
+        System.out.print("Enter the value of the field: ");
+        String fieldValue = scanner.nextLine();
+
+
+        System.out.print("Enter the customer's id : ");
+        int id = scanner.nextInt();
+
+    if(!fieldName.equals(("first_name")) || !fieldName.equals(("last_name")) || !fieldName.equals(("email"))) {
+            System.out.println("Invalid field name");
+            updateCustomer();
+        }
+
+
+        try {
+            ps = connection.prepareStatement("UPDATE customer SET " +
+                    fieldName + " = '" + fieldValue + "', " +
+                    "WHERE id = " + id);
+
+            ps.execute();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static boolean deleteCustomer() {
+        // Update prompts to tell the user what data they need to enter next
+
+
+        System.out.print("Enter the id you want to delete: ");
+        int id = scanner.nextInt();
+
+
+        try {
+            ps = connection.prepareStatement("DELETE FROM sales WHERE customer_id = " + id);
+            ps.execute();
+
+            ps = connection.prepareStatement("DELETE FROM customer WHERE id = " + id);
+
+            ps.execute();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
