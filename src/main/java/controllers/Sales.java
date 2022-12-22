@@ -35,23 +35,20 @@ public class Sales {
 
     }
 
-    public static void getAllSales(){
-
-
-
-        try{
-            ps = connection.prepareStatement("SELECT * FROM sales");
+    public static void getAllSales() {
+        try {
+            ps = connection.prepareStatement("SELECT sales.*, customer.first_name, customer.last_name FROM sales LEFT JOIN customer ON sales.customer_id = customer.id");
             rs = ps.executeQuery();
 
-            //Loop through the result set
+            // Loop through the result set
             while (rs.next()) {
-                String customer id = customer_id:
                 String id = "id: " + rs.getInt("id");
-                String date_purchased = "date_purchased: " + rs.getTimestamp("date_purchased");
+                String customerId = "customer_id: " + rs.getInt("customer_id");
+                String datePurchased = "date_purchased: " + rs.getTimestamp("date_purchased");
                 String total = "total: " + rs.getFloat("total");
-
-
-                System.out.println(id + ", " + date_purchased + ", " + total);
+                String firstName = "first_name: " + rs.getString("first_name");
+                String lastName = "last_name: " + rs.getString("last_name");
+                System.out.println(id + ", " + customerId + ", " + total + ", " + firstName + ", " + lastName + ", " + datePurchased);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -123,24 +120,26 @@ public class Sales {
         Date sqlDate = new Date(regDate.getTime());
 
         int saleId = 0;
+
         try {
-            ps = connection.prepareStatement("INSERT INTO sales(customer_id, date_purchased, total)" +
-                    "VALUES(" + customerId + ", current_timestamp, " + totalSale + ")RETURNING id");
-            rs.ps.executeQuery();
+            ps = connection.prepareStatement("INSERT INTO sales(customer_id, date_purchased, total) " +
+                    "VALUES(" + customerId + ", current_timestamp, " + totalSale + ") RETURNING id" );
+            rs = ps.executeQuery();
 
             // Loop through the result set until empty
-            while(rs.next()){
+            while (rs.next()) {
                 saleId = rs.getInt("id");
-
-                // For each sale , use id to create the orders.
-                for(OrderObject order : itemsPurchased){
-                    ps = connection.prepareStatement("INSERT INTO orders(sale_id")
+                // For each sale, use the id to create the orders.
+                for (OrderObject order : itemsPurchased) {
+                    ps = connection.prepareStatement("INSERT INTO orders(sale_id, item_id, qty_purchased, item_total) " +
+                            "VALUES(" + saleId + ", " + order.getItemId() + ", " + order.getQtyPurchased() + ", " + order.getTotalOnItem() + ")");
+                    ps.execute();
                 }
             }
-
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
 
 
