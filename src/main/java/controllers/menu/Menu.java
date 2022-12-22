@@ -128,6 +128,7 @@ public class Menu {
         System.out.println("1. Get All Orders");
 
 
+
         System.out.println();
         System.out.print("Select an option or enter 0 to go back to main menu: ");
         int option = scanner.nextInt();
@@ -152,6 +153,9 @@ public class Menu {
     public static void salesMenu() {
         System.out.println("Pick a submenu number to continue: ");
         System.out.println("1. Get item Total");
+        System.out.println("2. Create New Sale and Orders");
+        //System.out.println("3. Update Sale and Orders");
+
 
 
 
@@ -166,10 +170,10 @@ public class Menu {
                 Sales.handleItemTotal();
                 salesMenu();
                 break;
-            //case 2:
-              //  Customer.createNewCustomer();
-                //customerMenu();
-                //break;
+            case 2:
+             Sales.createSaleAndOrder();
+                salesMenu();
+                break;
 
             //case 3:
                 //Customer.updateCustomer();

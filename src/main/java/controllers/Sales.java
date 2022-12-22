@@ -2,105 +2,149 @@ package controllers;
 
 import db.Database;
 
+
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class Sales {
 
-        static Connection connection = Database.DbConn();
-        static PreparedStatement ps;
-        static ResultSet rs;
-        static Scanner scanner = new Scanner(System.in);
+    static Connection connection = Database.DbConn();
+    static PreparedStatement ps;
+    static ResultSet rs;
+    static Scanner scanner = new Scanner(System.in);
 
-        public static boolean createSalesTable() {
-            try {
-                ps = connection.prepareStatement(
-                        "CREATE TABLE IF NOT EXISTS sales(" +
-                                "id serial PRIMARY KEY," +
-                                "customer_id int," +
-                                "date_purchased TIMESTAMP," +
-                                "total float," +
-                                "FOREIGN KEY(customer_id) REFERENCES customer(id))");
-                ps.execute();
-                return true;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return false;
-            }
-
+    public static boolean createSalesTable() {
+        try {
+            ps = connection.prepareStatement(
+                    "CREATE TABLE IF NOT EXISTS sales (" +
+                            "id serial PRIMARY KEY," +
+                            "    customer_id int," +
+                            "    date_purchased TIMESTAMP," +
+                            "    total float," +
+                            "    FOREIGN KEY (customer_id) REFERENCES customer(id))");
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
 
-        public static void getAllSales(){
+    }
+
+    public static void getAllSales(){
 
 
 
-            try{
-                ps = connection.prepareStatement("SELECT * FROM sales");
+        try{
+            ps = connection.prepareStatement("SELECT * FROM sales");
+            rs = ps.executeQuery();
+
+            //Loop through the result set
+            while (rs.next()) {
+                String customer id = customer_id:
+                String id = "id: " + rs.getInt("id");
+                String date_purchased = "date_purchased: " + rs.getTimestamp("date_purchased");
+                String total = "total: " + rs.getFloat("total");
+
+
+                System.out.println(id + ", " + date_purchased + ", " + total);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<OrderObject> handleItemTotal() {
+        System.out.println("Enter how many items were bought: ");
+        int numberOfItems = scanner.nextInt();
+
+        // Map<Integer, Float> items = new HashMap<>();
+        List<OrderObject> itemsPurchased = new ArrayList<>();
+        float itemTotal = 0;
+
+        for (int i = 0; i < numberOfItems; i++) {
+            //use the connection to get the item by the id
+            //after you pass into the map
+            System.out.println("Enter the items id:");
+            int itemId = scanner.nextInt();
+
+            System.out.println("Enter the qty purchased:");
+            int qty = scanner.nextInt();
+            float itemPrice = 0;
+
+            try {
+                ps = connection.prepareStatement("SELECT price FROM items WHERE id = " +itemId);
                 rs = ps.executeQuery();
 
-                //Loop through the result set
                 while (rs.next()) {
-                    String id = "id: " + rs.getInt("id");
-                    String customerId = "customer_id: " + rs.getInt("customer_id");
-                    String datePurchased = "date_purchased: " + rs.getTimestamp("date_purchased");
-                    String Total = "total: " + rs.getFloat("total");
+                    itemPrice = rs.getFloat("price");
 
-                    System.out.println(id + ", " + customerId + ", " + datePurchased + ", " + Total);
                 }
+                itemTotal = itemPrice * qty;
+                // items.putIfAbsent(itemId, itemTotal);
+                itemsPurchased.add(new OrderObject(itemId, qty, itemTotal));
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
         }
 
-        public static Map<Integer,Float> handleItemTotal(){
-            System.out.println("Enter how many items were bought: ");
-            int numberOfItems = scanner.nextInt();
+        return itemsPurchased;
 
-            Map<Integer, Float> items = new HashMap<>();
-            float itemTotal = 0;
+    }
 
-            for (int i = 0; i < numberOfItems; i++){
-                // Use the connection to get the item by id after you
-                // pass it into the map
-                System.out.println("Enter the item id: ");
-                int itemId = scanner.nextInt();
+    public static float collateOrderTotal(List<OrderObject> orders) {
+        float sum = 0;
 
-                System.out.println("Enter the quantity purchased: ");
-                int qty = scanner.nextInt();
-                float itemPrice = 0;
-                try{
-                    ps = connection.prepareStatement("SELECT price FROM items WHERE id = " + itemId);
-                    rs = ps.executeQuery();
-                    while(rs.next()){
-                        itemPrice = rs.getFloat("price");
-                    }
+        for (OrderObject order : orders) {
+            sum += order.getTotalOnItem();
 
-                    itemTotal = itemPrice * qty;
-                    items.putIfAbsent(itemId, itemTotal);
+        }
+        return sum;
+    }
 
-                }catch (SQLException e){
-                    e.printStackTrace();
+    public static void createSaleAndOrder() {
+        // Prompt the user for the customer id
+        System.out.println("Enter the customer id: ");
+        int customerId = scanner.nextInt();
+
+        // Get the items purchased
+        List<OrderObject> itemsPurchased = handleItemTotal();
+
+        // Get the total on the items
+        float totalSale = collateOrderTotal(itemsPurchased);
+
+        java.util.Date regDate = new java.util.Date();
+        Date sqlDate = new Date(regDate.getTime());
+
+        int saleId = 0;
+        try {
+            ps = connection.prepareStatement("INSERT INTO sales(customer_id, date_purchased, total)" +
+                    "VALUES(" + customerId + ", current_timestamp, " + totalSale + ")RETURNING id");
+            rs.ps.executeQuery();
+
+            // Loop through the result set until empty
+            while(rs.next()){
+                saleId = rs.getInt("id");
+
+                // For each sale , use id to create the orders.
+                for(OrderObject order : itemsPurchased){
+                    ps = connection.prepareStatement("INSERT INTO orders(sale_id")
                 }
-
-
             }
-            System.out.println(items);
-            return items;
-        }
-        public static void createNewSale(){
-            handleItemTotal();
-            Map<Integer, Float> sales = new HashMap<>();
 
-
-
+        }catch (SQLException e){
+            e.printStackTrace();
         }
 
-}
+
+
+
+    }
 
 
