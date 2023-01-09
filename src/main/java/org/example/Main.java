@@ -1,9 +1,13 @@
 package org.example;
-import controllers.Customer;
-import controllers.Item;
+
+import entities.Item;
 import controllers.Orders;
 import controllers.Sales;
 import controllers.menu.Menu;
+import db.Database;
+import entities.Customer;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import static controllers.Item.getAllItems;
 
@@ -17,14 +21,44 @@ public class Main {
         //Item.deleteItem();
         //Item.getItemById();
         //Item.getAllItems();
-        Customer.getAllCustomers();
-        Customer.createCustomerTable();
+       // Customer.getAllCustomers();
+        //Customer.createCustomerTable();
         //Item.createItemsTable();
         //Orders.createOrdersTable();
         //Sales.createSalesTable();
 
         //Subsequent object will have their create table methods here
-        Menu.mainMenu();
+        //Menu.mainMenu();
+
+
+        Session session = Database.getHibSesh();
+
+       // Customer cust = session.find(Customer.class, 2);
+       // System.out.println(cust);
+        Item itm = session.find(Item.class,3);
+        System.out.println(itm);
+
+        Item scissors = new Item("Scissors", "to cut things", 33, 2.5f);
+
+        try{
+            Transaction trans = session.beginTransaction();
+            session.save(scissors);
+            trans.commit();
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        //Customer barry = new Customer("Barry", "Allen","barryallen@gmail.com");
+
+        //try{
+          //  Transaction trans = session.beginTransaction();
+            //session.save(barry);
+            //trans.commit();
+
+        //} catch(Exception e){
+          //  e.printStackTrace();
+        //}
 
         //Add 2 feature to this application that allows user to view all the orders and all the sales
 
@@ -45,6 +79,25 @@ public class Main {
         // sale record
 
         //Add a method called createSaleOrder:
+
+        //Create a table called Students and another table called Grades
+        //The columns on the students table should be as follows: id, name, age
+        //Complete the controllers for the students table by adding methods
+        // to handle CRD operations on each record in a table.
+
+        //On the Grades table, store the students id, score and the Grades where
+        //The columns on Grades should be : id , student_id, score
+        // for each Grade:
+        // 0-40 F, 40-49 is an D , 50-59 C , 60- 69 B 70-100 A.
+        // Complete the controller on the Grades table to have Create  Read and Delete operation
+        //For the read operation , you should be able to see the students information as well
+
+
+
+
+        //Using Hibernate create the entity object for the items class and
+        // make find queries on the items table to retreive any items you previously stored on it
+        // Also demonstrate how you would save a new entry into the items table.
 
     }
 
