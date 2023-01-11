@@ -1,27 +1,24 @@
 package org.example;
 
-import entities.Item;
-import controllers.Orders;
-import controllers.Sales;
-import controllers.menu.Menu;
-import db.Database;
 import entities.Customer;
+import entities.Item;
+import db.Database;
+import entities.Orders;
+import entities.Sales;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import static controllers.Item.getAllItems;
 
 public class Main {
     public static void main(String[] args) {
 
         //Item.getAllItems();
-       // Item.createNewItem();
+        // Item.createNewItem();
         //Item.getAllItems();
         //Item.updateItem();
         //Item.deleteItem();
         //Item.getItemById();
         //Item.getAllItems();
-       // Customer.getAllCustomers();
+        // Customer.getAllCustomers();
         //Customer.createCustomerTable();
         //Item.createItemsTable();
         //Orders.createOrdersTable();
@@ -31,34 +28,35 @@ public class Main {
         //Menu.mainMenu();
 
 
-        Session session = Database.getHibSesh();
+       // Session session = Database.getHibSesh();
 
-       // Customer cust = session.find(Customer.class, 2);
-       // System.out.println(cust);
-        Item itm = session.find(Item.class,3);
-        System.out.println(itm);
+        //Orders order = session.find(Orders.class, 1);
+        //System.out.println(order);
 
-        Item scissors = new Item("Scissors", "to cut things", 33, 2.5f);
+        Customer.listCustomers();
 
-        try{
-            Transaction trans = session.beginTransaction();
-            session.save(scissors);
-            trans.commit();
+       // Customer minaj = new Customer("Nicki", "Minaj","nickiminaj@gmail.com");
+        //Customer.createCustomer(minaj);
+        //Customer.updateCustomer("Barry", 6);
+        Customer.deleteCustomer(7);
+        Customer.listCustomers();
+        // Customer cust = session.find(Customer.class, 2);
+        // System.out.println(cust);
+        //Sales sale = session.find(Sales.class, 3);
+        //System.out.println(sale);
 
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-
-        //Customer barry = new Customer("Barry", "Allen","barryallen@gmail.com");
+        //Item scissors = new Item("Scissors", "to cut things", 33, 2.5f);
 
         //try{
-          //  Transaction trans = session.beginTransaction();
-            //session.save(barry);
-            //trans.commit();
+        //  Transaction trans = session.beginTransaction();
+        //session.save(scissors);
+        //trans.commit();
 
         //} catch(Exception e){
-          //  e.printStackTrace();
-        //}
+        //  e.printStackTrace();
+    //}
+
+
 
         //Add 2 feature to this application that allows user to view all the orders and all the sales
 
@@ -99,6 +97,10 @@ public class Main {
         // make find queries on the items table to retreive any items you previously stored on it
         // Also demonstrate how you would save a new entry into the items table.
 
+
+        //How to hack the SELECT * FROM []; query
+        //Difference between certain hibernate methods
     }
+
 
 }

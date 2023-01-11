@@ -1,9 +1,9 @@
 package controllers.menu;
 
-import controllers.Customer;
-import controllers.Item;
-import controllers.Orders;
-import controllers.Sales;
+import controllers.CustomerController;
+import controllers.ItemController;
+import controllers.OrdersController;
+import controllers.SalesController;
 
 import java.util.Scanner;
 
@@ -59,19 +59,19 @@ public class Menu {
                 mainMenu();
                 break;
             case 1:
-                Item.getAllItems();
+                ItemController.getAllItems();
                 itemsMenu();
                 break;
             case 2:
-                Item.createNewItem();
+                ItemController.createNewItem();
                 itemsMenu();
                 break;
             case 3:
-                Item.updateItem();
+                ItemController.updateItem();
                 itemsMenu();;
                 break;
             case 4:
-                Item.deleteItem();
+                ItemController.deleteItem();
                 itemsMenu();
                 break;
 
@@ -100,20 +100,20 @@ public class Menu {
                 mainMenu();
                 break;
             case 1:
-                Customer.getAllCustomers();
+                CustomerController.getAllCustomers();
                 customerMenu();
                 break;
               case 2:
-                  Customer.createNewCustomer();
+                  CustomerController.createNewCustomer();
                   customerMenu();
                         break;
 
             case 3:
-                Customer.updateCustomer();
+                CustomerController.updateCustomer();
                 customerMenu();
                 break;
             case 4:
-                Customer.deleteCustomer();
+                CustomerController.deleteCustomer();
                 customerMenu();
                 break;
             default:
@@ -138,7 +138,7 @@ public class Menu {
                 mainMenu();
                 break;
             case 1:
-                Orders.getAllOrders();
+                OrdersController.getAllOrders();
                 ordersMenu();
                 break;
 
@@ -167,11 +167,11 @@ public class Menu {
                 mainMenu();
                 break;
             case 1:
-                Sales.handleItemTotal();
+                SalesController.handleItemTotal();
                 salesMenu();
                 break;
             case 2:
-             Sales.createSaleAndOrder();
+             SalesController.createSaleAndOrder();
                 salesMenu();
                 break;
 

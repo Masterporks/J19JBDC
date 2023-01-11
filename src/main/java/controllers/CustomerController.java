@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class Customer {
+public class CustomerController {
 
     //Create a table for the class above if and only
     //if it doesn't already exist.

@@ -24,10 +24,10 @@ public class Item {
     private double price;
 
 
-    public Item(String name, String description, int qty_in_stock, float price) {
+    public Item(String name, String desc, int qty, float price) {
         this.name = name;
-        this.desc = description;
-        this.qty = qty_in_stock;
+        this.desc = desc;
+        this.qty = qty;
         this.price = price;
     }
 }

@@ -18,6 +18,8 @@
 
         <mapping class="entities.Customer"/>
         <mapping class="entities.Item"/>
+        <mapping class = "entities.Sales"/>
+        <mapping class = "entities.Orders"/>
     </session-factory>
 
 </hibernate-configuration>
